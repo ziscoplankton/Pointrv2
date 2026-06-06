@@ -74,7 +74,7 @@ const STEPS = [
       const selected = selectedPills("price");
       return selected.length < 1 ? "Please select a price tier." : null;
     },
-    collect: () => ({ "Would Pay": selectedPills("price")[0] || "" }),
+    collect: () => ({ "Would Pay": (selectedPills("price")[0] || "").replace("$", "") }),
   },
 ];
 
