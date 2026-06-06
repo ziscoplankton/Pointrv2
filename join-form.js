@@ -34,7 +34,7 @@ const STEPS = [
       const val = field("name").value.trim();
       return val.length < 1 ? "Please enter your name." : null;
     },
-    collect: () => ({ Name: field("name").value.trim() }),
+    collect: () => ({ "First Name": field("name").value.trim() }),
   },
   {
     id: "email",
@@ -45,7 +45,7 @@ const STEPS = [
       if (!emailRe.test(val)) return "Please enter a valid email address.";
       return null;
     },
-    collect: () => ({ Email: field("email").value.trim() }),
+    collect: () => ({ "Email": field("email").value.trim() }),
   },
   {
     id: "programs",
@@ -53,12 +53,12 @@ const STEPS = [
       const selected = selectedPills("programs");
       return selected.length < 1 ? "Please select at least one program." : null;
     },
-    collect: () => ({ Programs: selectedPills("programs").join(", ") }),
+    collect: () => ({ "Programs": selectedPills("programs").join(", ") }),
   },
   {
     id: "strategy",
-    validate: () => null, // optional
-    collect: () => ({ Strategy: field("strategy").value.trim() }),
+    validate: () => null,
+    collect: () => ({ "Goals": field("strategy").value.trim() }),
   },
   {
     id: "challenges",
@@ -66,7 +66,7 @@ const STEPS = [
       const selected = selectedPills("challenges");
       return selected.length < 1 ? "Please select at least one challenge." : null;
     },
-    collect: () => ({ Challenges: selectedPills("challenges").join(", ") }),
+    collect: () => ({ "Frustrations": selectedPills("challenges").join(", ") }),
   },
   {
     id: "price",
@@ -74,7 +74,7 @@ const STEPS = [
       const selected = selectedPills("price");
       return selected.length < 1 ? "Please select a price tier." : null;
     },
-    collect: () => ({ PriceTier: selectedPills("price")[0] || "" }),
+    collect: () => ({ "Would Pay": selectedPills("price")[0] || "" }),
   },
 ];
 
