@@ -1,0 +1,1172 @@
+/* ============================================================
+   POINTR — INDEX PAGE STYLES
+   Sections: Nav · Hero · Features · People · Footer
+   ============================================================ */
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-weight: var(--fw-light);
+  font-size: 2.5rem;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.preloader-logo .logo-ring-wrap {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  top: var(--ring-offset-y);
+  margin: 0 0.02em;
+}
+
+
+
+/* ============================================================
+   NAV
+   ============================================================ */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  padding: 1.25rem var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* iOS 26 liquid glass */
+  width: 90%;
+  margin: auto;
+  margin-top: 0.25rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(28px) saturate(1.8);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+
+  /* Inner highlight line — top edge catches light like glass */
+  /* box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04),
+    0 1px 4px rgba(0, 0, 0, 0.01); */
+
+  border: 1px solid rgba(225, 225, 225, 0.6);
+}
+.nav-logo {
+  font-size: 1.5rem; /* ~24px */
+}
+
+@property --cta-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes cta-border-spin {
+  from { --cta-angle: 0deg; }
+  to   { --cta-angle: 360deg; }
+}
+
+@property --feat-angle {
+  syntax: '<angle>';
+  initial-value: 135deg;
+  inherits: false;
+}
+
+@keyframes feat-border-spin {
+  from { --feat-angle: 0deg; }
+  to   { --feat-angle: 360deg; }
+}
+
+@property --contact-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes contact-border-spin {
+  to { --contact-angle: 360deg; }
+}
+
+@keyframes contact-stop-a-spin {
+  0%   { stop-color: #474ED7; }
+  33%  { stop-color: #EC458D; }
+  66%  { stop-color: #FFF1BF; }
+  100% { stop-color: #474ED7; }
+}
+
+@keyframes contact-stop-b-spin {
+  0%   { stop-color: #EC458D; }
+  33%  { stop-color: #FFF1BF; }
+  66%  { stop-color: #474ED7; }
+  100% { stop-color: #EC458D; }
+}
+
+@keyframes contact-stop-c-spin {
+  0%   { stop-color: #FFF1BF; }
+  33%  { stop-color: #474ED7; }
+  66%  { stop-color: #EC458D; }
+  100% { stop-color: #FFF1BF; }
+}
+
+
+.nav-cta {
+  /* Outline gradient pill — Join waitlist */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  background: var(--color-bg);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity var(--dur-mid) ease;
+  /* gradient border via box-shadow trick for nav size */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--color-grad-a), var(--color-grad-b), var(--color-grad-c));
+  z-index: -1;
+  transition: opacity var(--dur-mid) ease;
+
+}
+
+.nav-cta::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  background: conic-gradient(
+    from var(--cta-angle),
+    var(--color-grad-a),
+    var(--color-grad-b),
+    var(--color-grad-c),
+    var(--color-grad-a)
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--dur-mid) ease;
+}
+
+
+
+.nav-cta:hover::before { opacity: 0; }
+.nav-cta:hover::after  { 
+  opacity: 1; 
+  animation: cta-border-spin 1.5s linear infinite;
+}
+.nav-cta:hover         { opacity: 1; }
+
+/* ============================================================
+   HERO SECTION  (screen 1)
+   Full-viewport. Logo top-left already in nav.
+   Two-column: left copy + actions | right card
+   ============================================================ */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 7rem var(--page-gutter) 4rem;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2xl);
+  align-items: center;
+  width: 100%;
+}
+
+/* Left column */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xl);
+}
+
+/* hero-headline — visibility/entrance managed by GSAP */
+.hero-headline {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-tight);
+  color: var(--color-text);
+}
+
+.hero-headline span {
+  display: block;
+}
+
+/* Icon action row */
+.hero-actions {
+  display: flex;
+  gap: var(--sp-md);
+  align-items: center;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  cursor: default; /* decorative */
+}
+
+.action-icon {
+  width: 4.75rem;   /* ~76px */
+  height: 4.8125rem; /* ~77px */
+  /* height: 6rem; */
+  border-radius: var(--radius-card);
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.01);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  background-clip: padding-box;
+  box-shadow:
+  inset 0 1px 0 rgba(255, 255, 255, 0.80),
+  inset 0 -1px 0 rgba(0, 0, 0, 0.03),
+  0 1px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  gap: 0.375rem;
+}
+
+.action-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+  135deg,
+  rgba(200, 200, 200, 0.35) 0%,
+  rgba(200, 200, 200, 0.00) 40%,
+  rgba(200, 200, 200, 0.00) 60%,
+  rgba(200, 200, 200, 0.40) 100%
+);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.action-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  /* Icon gradient */
+  /* stroke: url(#icon-grad); */
+  stroke: #EC458D;
+  fill: #EC458D;
+}
+
+.action-label {
+  font-size: var(--text-xs);
+  font-weight: var(--fw-regular);
+  color: var(--color-text-mid);
+}
+
+/* Float animation for action buttons — managed by GSAP in index-anim.js */
+/* CSS float removed; GSAP handles staggered float loops per-button */
+
+/* Right column — hero card */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--sp-2xl);
+  margin-top: -5rem;
+}
+
+/* Hero card wrap — spinning gradient border only */
+.hero-card-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 28px;
+  visibility: visible;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Hero card inner — same glass as action-icon */
+.hero-card-inner {
+  border-radius: 27px;
+  background: rgba(0, 0, 0, 0.01);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow : inset 0 1px 0 rgba(255,255,255,0.80), inset 0 -1px 0 rgba(0,0,0,0.01), 0 1px 2px rgba(0,0,0,0.01);
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+  135deg,
+  rgba(200, 200, 200, 0.35) 0%,
+  rgba(200, 200, 200, 0.00) 25%,
+  rgba(200, 200, 200, 0.00) 45%,
+  rgba(200, 200, 200, 0.40) 100%
+);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+.hero-card-title {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-regular);
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.hero-card-sub {
+  font-size: var(--text-h3);
+  color: var(--color-text-mid);
+  line-height: var(--lh-base);
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.hero-card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hero-card-list li {
+  font-size: var(--text-xs);
+  color: var(--color-text-mid);
+  /* padding-left: 1.25rem; */
+  position: relative;
+  line-height: var(--lh-base);
+}
+
+/* .hero-card-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-grad-a), var(--color-grad-b));
+} */
+@property --bullet-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes bullet-spin {
+  from { --bullet-angle: 0deg; }
+  to   { --bullet-angle: 360deg; }
+}
+
+.hero-card-list li::before {
+  display: none;
+  content: '';
+  position: absolute;
+  left: 0.1em;
+  top: 0.38em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from var(--bullet-angle),
+    var(--color-grad-a),
+    var(--color-grad-b),
+    var(--color-grad-c),
+    var(--color-grad-a)
+  );
+  animation: bullet-spin 3s linear;
+  padding: 1.5px;
+  -webkit-mask:
+    radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 2px));
+  mask:
+    radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 2px));
+}
+
+/* Grow your wallet block */
+.hero-grow {
+  text-align: right;
+  padding-right: 0.5rem;
+  margin-top: 5rem;
+}
+
+.hero-grow-title {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.hero-grow-sub {
+  font-size: var(--text-h3);
+  color: var(--color-text-mid);
+}
+
+.hero-cta-mobile {
+  display: none; /* hidden on desktop */
+}
+/* ============================================================
+   FEATURES SECTION  (screens 2 & 3)
+   Two layout modes toggled via JS + CSS class.
+   ============================================================ */
+
+.features {
+  padding: var(--sp-lg) 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+}
+
+.features-sticky-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: start;        /* critical — stops sticky collapsing */
+}
+
+.features-left-inner {
+  position: relative;       /* positioning context for absolute children */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--page-gutter) 0 25%;
+}
+
+.feature-left {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  padding: 0 var(--page-gutter) 0 25%;
+  transform: translateY(-50%);
+  /* GSAP controls visibility — start all hidden */
+}
+
+.features-right-col {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem var(--page-gutter) 6rem 0;
+  gap: var(--sp-3xl);
+}
+
+.feature-right {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Hidden on desktop — shown on mobile via the responsive block */
+.feature-right-label { display: none; }
+
+.feature-card {
+  width: 100%;
+}
+
+/* ---- MODE A: STICKY (default) ---- */
+/* Left panel sticks while right cards scroll */
+
+/* .features.mode-sticky .feature-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  position: relative;
+} */
+
+
+/* .features.mode-sticky .feature-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--page-gutter) 0 40%;
+  padding-top: 8rem;
+  align-self: start; */
+  /* Fade controlled by JS */
+  /* opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--dur-slow) ease,
+    transform var(--dur-slow) ease;
+} */
+
+/* .features.mode-sticky .feature-left.visible {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* .features.mode-sticky .feature-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 50%;
+  padding: 2rem var(--page-gutter) 2rem 0;
+  gap: var(--sp-3xl);
+  padding-top:-20rem;
+} */
+
+/* ---- MODE B: TOGETHER ---- */
+/* Left + right animate in/out together per scroll */
+
+.features.mode-together .feature-section {
+  min-height: 80vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: var(--sp-3xl) var(--page-gutter);
+  gap: var(--sp-2xl);
+  /* Initial state — hidden, JS adds .visible */
+  /* opacity: 0; */
+  transform: translateY(40px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.features.mode-together .feature-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.features.mode-together .feature-left {
+  padding-left: 0;
+}
+
+.features.mode-together .feature-right {
+  gap: 0; /* single card per section in together mode */
+  padding: 0;
+}
+
+/* ---- Shared feature left text ---- */
+.feature-label {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.feature-sub {
+  font-size: var(--text-body);
+  color: var(--color-text-mid);
+  line-height: var(--lh-base);
+  max-width: 28ch;
+}
+
+/* ---- Feature cards (right side) ---- */
+/* .feature-card {
+  position: relative;
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  background: linear-gradient(135deg,
+    var(--color-grad-a),
+    var(--color-grad-b),
+    var(--color-grad-c)
+  ); */
+  /* scroll reveal — MODE A (individual cards) */
+  /* opacity: 0;
+  transform: translateY(24px); */
+  /* transition:
+    opacity 0.55s ease,
+    transform 0.55s ease; */
+/* } */
+/* .feature-card {
+  position: relative;
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  background: conic-gradient(
+    from var(--feat-angle),
+    var(--color-grad-a),
+    var(--color-grad-b),
+    var(--color-grad-c),
+    var(--color-grad-a)
+  );
+  animation: feat-border-spin 3s linear infinite;
+} */
+.feature-card {
+  position: relative;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.01);
+  backdrop-filter: blur(12px) saturate(1.6);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  background-clip: padding-box;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(200, 200, 200, 0.35) 0%,
+    rgba(200, 200, 200, 0.00) 40%,
+    rgba(200, 200, 200, 0.00) 60%,
+    rgba(200, 200, 200, 0.40) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+.feature-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-card-inner {
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.01);
+  backdrop-filter: blur(12px) saturate(1.6);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  padding: 1.125rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.feature-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.feature-card-name {
+  font-size: var(--text-card-title);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+}
+
+.feature-card-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-light);
+}
+
+.feature-card-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.feature-card-value {
+  font-size: var(--text-card-title);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+}
+
+.feature-card-value.negative {
+  color: var(--color-text);
+}
+
+.feature-card-percent {
+  font-size: var(--text-card-title);
+  color: var(--color-text);
+}
+
+/* Apply Plan pill */
+
+.pill-apply {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(var(--color-grad-e), var(--color-grad-d));
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Why that? link */
+.pill-why {
+  font-size: var(--text-xs);
+  color: var(--color-text-light);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border-color:rgba(217,217,217,0.1);
+  background: rgba(217,217,217,0.25);
+  color: #000;
+  font-size: var(--text-xs);
+  font-weight: var(--fw-medium);
+}
+
+/* .pill-why,
+.pill-apply {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+} */
+
+/* Bid pill */
+.pill-bid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-text);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: var(--fw-medium);
+}
+
+/* Refresh icon */
+.icon-refresh {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ============================================================
+   PEOPLE SECTION  (screen 4 / 7)
+   ============================================================ */
+
+.people {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--sp-3xl) var(--page-gutter);
+}
+
+.people-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2xl);
+  align-items: center;
+  width: 100%;
+}
+
+.people-label {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-regular);
+  margin-bottom: 1rem;
+}
+
+.people-body {
+  font-size: var(--text-body);
+  color: var(--color-text-mid);
+  line-height: var(--lh-base);
+  max-width: 40ch;
+  margin-bottom: 1.5rem;
+}
+
+.people-collab {
+  font-size: var(--text-body);
+  color: var(--color-text-mid);
+  line-height: var(--lh-base);
+  max-width: 44ch;
+  text-align: left;
+}
+
+.people-contacts {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.contact-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* AFTER */
+.contact-icon {
+  width: 4.75rem;
+  height: 4.75rem;
+  border-radius: var(--radius-card);
+  border: 1px solid transparent;
+  background: rgba(0, 0, 0, 0.01);
+  backdrop-filter: blur(12px) saturate(1.6);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  background-clip: padding-box;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.80),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  gap: 0.575rem;
+}
+
+.contact-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(200, 200, 200, 0.35) 0%,
+    rgba(200, 200, 200, 0.00) 40%,
+    rgba(200, 200, 200, 0.00) 60%,
+    rgba(200, 200, 200, 0.40) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Everything inside needs to sit above the ::before */
+.contact-icon > * {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.contact-label {
+  font-size: var(--text-btn-people);
+  color: var(--color-text-mid);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+  padding: var(--sp-lg) var(--page-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(217,217,217,0.3);
+}
+
+.footer-copy {
+  font-size: var(--text-xs);
+  color: var(--color-text-xlt);
+}
+
+.footer-link {
+  font-size: var(--text-xs);
+  color: var(--color-text-light);
+  transition: color var(--dur-fast) ease;
+}
+
+.footer-link:hover { color: var(--color-text); }
+
+/* ============================================================
+   SCROLL REVEAL — replaced by GSAP ScrollTrigger in index-anim.js
+   These classes are no longer needed but kept for reference.
+   ============================================================ */
+
+/* .reveal { ... } — removed; GSAP animates directly */
+/* .reveal.revealed { ... } — removed */
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* ---- Tablet / small desktop ---- */
+@media (max-width: 1024px) {
+
+  .nav { display: none; }
+
+  .hero-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: var(--sp-md);
+  }
+
+  .hero-grid,
+  .people-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-xl);
+  }
+
+  .hero {
+    padding-top: 6rem;
+    min-height: auto;
+  }
+
+  .hero-right {
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .hero-grow {
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .hero-cta-mobile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 2rem;
+  border-radius: var(--radius-pill);
+  font-size: 1rem;
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  background: var(--color-bg);
+  text-decoration: none;
+  position: relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.hero-cta-mobile::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--color-grad-a), var(--color-grad-b), var(--color-grad-c));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--dur-mid) ease;
+}
+
+.hero-cta-mobile::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  background: conic-gradient(
+    from var(--cta-angle),
+    var(--color-grad-a),
+    var(--color-grad-b),
+    var(--color-grad-c),
+    var(--color-grad-a)
+  );
+  z-index: -1;
+  opacity: 1;
+  animation: cta-border-spin 3s linear infinite;
+}
+
+.hero-cta-mobile:hover::after {
+  animation-play-state: paused;
+}
+
+  /* ---- Features: kill sticky layout, stack label above card ---- */
+  .features {
+    display: block;
+    padding: var(--sp-2xl) var(--page-gutter);
+  }
+
+  /* Hide the sticky left container entirely */
+  .features-sticky-left {
+    display: none;
+  }
+
+  /* Each right-col item becomes a full stacked section */
+  .features-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2xl);
+    padding: 0;
+  }
+
+  .feature-right {
+    min-height: unset;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    width: 100%;
+  }
+
+.feature-right-label {
+  display: block;
+  align-self: flex-start;
+  width: 100%;
+  text-align: left;
+}
+
+.feature-right-label .feature-label {
+  font-size: var(--text-h2);
+  font-weight: var(--fw-regular);
+  margin-bottom: 0.25rem;
+}
+
+.feature-right-label .feature-sub {
+  font-size: var(--text-body);
+  color: var(--color-text-mid);
+  line-height: var(--lh-base);
+  max-width: 100%;
+}
+
+  /*
+    Inject label + sub above each card using data-feature attribute.
+    We show a generated label block via a sibling approach —
+    but since the left panels are hidden, we use ::before on feature-right
+    to re-surface the label text. However CSS can't pull text from data attrs
+    cleanly — so instead we show the feature-left panels inline here.
+    See HTML instruction below.
+  */
+
+  .feature-card {
+    width: 100%;
+    border-radius: var(--radius-card);
+  }
+
+  .feature-card-inner {
+    border-radius: calc(var(--radius-card) - 3px);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .feature-card-name {
+    font-size: var(--text-body);
+  }
+
+  /* ---- People: center contacts ---- */
+  .people {
+    min-height: auto;
+    padding: var(--sp-2xl) var(--page-gutter);
+  }
+
+  .people-right {
+    justify-content: center !important;
+  }
+
+  .people-contacts {
+    justify-content: center;
+  }
+
+  .people-body,
+  .people-collab {
+    max-width: 100%;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 600px) {
+  :root {
+    --page-gutter: 1.25rem;
+    --text-h1:     1.5em;
+    --text-h2:     1.15em;
+    --text-card-title: 1em;
+    --text-card-val:   1em;
+  }
+
+  .hero-card-wrap { max-width: 100%; }
+
+  .hero-card-inner {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .feature-card-inner {
+    padding: 1rem 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .pill-why,
+  .pill-apply,
+  .pill-bid {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .feature-card-right:has(.pill-why),
+  .feature-card-right:has(.pill-apply),
+  .feature-card-right:has(.pill-bid) {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .feature-card-inner:has(.pill-why),
+  .feature-card-inner:has(.pill-bid) {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  .feature-card-inner:has(.pill-why) {
+    padding: 1rem 1.25rem;
+  }
+
+
+  .footer {
+    flex-direction: column;
+    gap: var(--sp-sm);
+    text-align: center;
+  }
+}

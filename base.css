@@ -1,0 +1,200 @@
+/* ============================================================
+   POINTR — BASE / RESET
+   Global resets, body, typography helpers, utilities.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+/* Chillax — self-hosted via CDN fallback */
+@import url('https://api.fontshare.com/v2/css?f[]=chillax@300,400,500&display=swap');
+
+/* ---- Reset ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: var(--lh-base);
+  overflow-x: hidden;
+}
+
+/* ---- Accessibility: reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Focus rings ---- */
+:focus-visible {
+  outline: 2px solid var(--color-grad-a);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---- Selection ---- */
+::selection {
+  background: rgba(71,78,215,0.15);
+  color: var(--color-text);
+}
+
+/* ---- Typography helpers ---- */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-body);
+  line-height: var(--lh-tight);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---- Utility: visually hidden (a11y) ---- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Page container ---- */
+.page-wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+}
+
+/* ---- Gradient text helper ---- */
+.grad-text {
+  background: linear-gradient(90deg, var(--color-grad-a), var(--color-grad-b));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   LOGO / WORDMARK
+   Used in nav (index.html) and join page header.
+   ============================================================ */
+
+.pointr-logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-weight: var(--fw-light);
+  font-size: var(--text-logo);
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  cursor: default;
+  text-decoration: none;
+}
+
+/* Scale down logo in nav */
+.nav .pointr-logo {
+  font-size: 1.25rem;  /* ~20px in nav context */
+}
+
+.pointr-logo .logo-ring-wrap {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  /* shift ring down below baseline */
+  top: var(--ring-offset-y);
+  margin: 0 0.02em;
+}
+
+.pointr-logo .logo-ring-wrap svg {
+  display: block;
+}
+
+/* ---- Logo ring spin animation ---- */
+@keyframes ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.logo-ring-svg {
+  animation: ring-spin var(--dur-spin) linear infinite;
+  transform-origin: center;
+}
+
+/* Pause ring spin after 2 full rotations (~6s) then freeze */
+/* Controlled via JS class .ring-settled */
+.logo-ring-svg.ring-settled {
+  animation: none;
+}
+
+/* ============================================================
+   GRADIENT BORDER UTILITY  (pseudo-element technique)
+   Wrap element in .grad-border-wrap, inner el gets .grad-inner
+   ============================================================ */
+
+.grad-border-wrap {
+  position: relative;
+  border-radius: var(--radius-pill);
+  padding: var(--border-grad);
+  background: linear-gradient(
+    var(--grad-angle, 135deg),
+    var(--color-grad-a),
+    var(--color-grad-b),
+    var(--color-grad-c)
+  );
+}
+
+.grad-border-wrap .grad-inner {
+  border-radius: calc(var(--radius-pill) - var(--border-grad));
+  background: var(--color-bg);
+  width: 100%;
+  height: 100%;
+}
+
+/* Rotating gradient border */
+@keyframes border-spin {
+  from { --grad-angle: 0deg;   }
+  to   { --grad-angle: 360deg; }
+}
+
+@property --grad-angle {
+  syntax: '<angle>';
+  initial-value: 135deg;
+  inherits: false;
+}
+
+.grad-border-spinning {
+  animation: border-spin 3s linear infinite;
+}

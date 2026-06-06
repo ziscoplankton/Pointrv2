@@ -1,0 +1,140 @@
+/* ============================================================
+   POINTR — DESIGN TOKENS
+   Edit this file to update colours, typography, spacing
+   across the entire site in one place.
+   ============================================================ */
+
+:root {
+
+  /* ----------------------------------------------------------
+     COLOURS
+  ---------------------------------------------------------- */
+
+  /* Brand gradient stops */
+  --color-grad-a: #474ED7;   /* blue-violet */
+  --color-grad-b: #EC458D;   /* hot pink    */
+  --color-grad-c: #FFF1BF;   /* warm cream  */
+  --color-grad-d: #B60F46;   /* hot red  */
+  --color-grad-e: #F07477;   /* nuanced red  */
+  /* CTA & accents */
+  --color-cta:        #ED4F4F;   /* Join / filled red pill */
+  --color-cta-sec:    #A90B94;   /* secondary filled gradient end */
+  
+  /* Surfaces */
+  --color-bg:         #FFFFFF;
+  --color-surface:    rgba(255,255,255,0.72);
+  --color-border:     rgba(217,217,217,0.25);
+  --color-border-alt: rgba(217,217,217,1);
+
+  /* Text */
+  --color-text:       #111111;
+  --color-text-mid:   #444444;
+  --color-text-light: #888888;
+  --color-text-xlt:   #AAAAAA;
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY
+  ---------------------------------------------------------- */
+
+  /* Families  — loaded in index.html via @import / link */
+  --font-display: 'Chillax', sans-serif;   /* logo only        */
+  --font-body:    'DM Sans', sans-serif;   /* everything else  */
+
+  /* Scale — desktop (em-based, rem fallback)              */
+  --text-logo:        3em;       /* 48px  logomark        */
+  --text-h1:          2.5em;     /* 40px  headers         */
+  --text-h2:          1.5em;     /* 24px  subheaders      */
+  --text-h3:          1em;    /* 20px  section titles  */
+  --text-body:        0.875em;   /* 14px  content         */
+  --text-xs:          0.75em;    /* 12px  extra light     */
+  --text-xxs:          0.45em;    /* 12px  extra light     */
+  --text-card-title:  1.25em;    /* 20px  card titles     */
+  --text-card-val:    1.5em;     /* 24px  card values     */
+  --text-card-body:   0.875em;   /* 14px  card content    */
+  --text-btn-cta:     2.5em;     /* 40px  JOIN cta        */
+  --text-btn-form:    1.5em;     /* 24px  form button     */
+  --text-btn-people:  0.75em;    /* 12px  people buttons  */
+  --text-legend:      0.75em;    /* 12px  legends         */
+
+  /* Weights */
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+
+  /* Line-heights */
+  --lh-tight:  1.15;
+  --lh-base:   1.5;
+  --lh-loose:  1.75;
+
+  /* ----------------------------------------------------------
+     SPACING  (rem)
+  ---------------------------------------------------------- */
+
+  --sp-xs:   0.25rem;   /*  4px */
+  --sp-sm:   0.5rem;    /*  8px */
+  --sp-md:   1rem;      /* 16px */
+  --sp-lg:   1.5rem;    /* 24px */
+  --sp-xl:   2.5rem;    /* 40px */
+  --sp-2xl:  4rem;      /* 64px */
+  --sp-3xl:  6rem;      /* 96px */
+
+  /* Page horizontal padding */
+  --page-gutter: 5vw;
+
+  /* ----------------------------------------------------------
+     BORDERS & RADII
+  ---------------------------------------------------------- */
+
+  --radius-pill:   50px;   /* fully rounded pills        */
+  --radius-card:   25px;   /* card / icon button         */
+  --radius-sm:     12px;
+
+  --border-grad:   3px;    /* 0.1875em gradient border   */
+  --border-toggle: 2px;    /* toggle pill                */
+
+  /* ----------------------------------------------------------
+     LOGO SVG RING
+     (the "o" replacement — used in logo + hero of /join)
+  ---------------------------------------------------------- */
+
+  --ring-stroke:   5px;    /* 0.3125em */
+  --ring-offset-y: 6px;    /* 0.375em  — drop below baseline */
+
+  /* ----------------------------------------------------------
+     SHADOWS
+  ---------------------------------------------------------- */
+
+  --shadow-card:  0 8px 40px rgba(0,0,0,0.06);
+  --shadow-float: 0 16px 48px rgba(71,78,215,0.10);
+
+  /* ----------------------------------------------------------
+     ANIMATION DURATIONS
+  ---------------------------------------------------------- */
+
+  --dur-fast:    150ms;
+  --dur-mid:     300ms;
+  --dur-slow:    600ms;
+  --dur-float:   4s;       /* hero card float cycle       */
+  --dur-spin:    3s;       /* logo ring spin              */
+
+  /* ----------------------------------------------------------
+     Z-INDEX SCALE
+  ---------------------------------------------------------- */
+
+  --z-base:    10;
+  --z-card:    20;
+  --z-overlay: 30;
+  --z-nav:     40;
+  --z-top:     50;
+
+}
+
+/* ----------------------------------------------------------
+   FEATURE SCROLL MODE
+   Set --feature-mode to "sticky" or "together" to switch
+   between the two scroll behaviours (A vs B).
+   Search "FEATURE_MODE" in features.js to see usage.
+---------------------------------------------------------- */
+:root {
+  --feature-mode: "sticky";   /* OPTIONS: "sticky" | "together" */
+}
