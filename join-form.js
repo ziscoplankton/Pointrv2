@@ -53,7 +53,7 @@ const STEPS = [
       const selected = selectedPills("programs");
       return selected.length < 1 ? "Please select at least one program." : null;
     },
-    collect: () => ({ "Programs": selectedPills("programs").join(", ") }),
+    collect: () => ({ "Programs": selectedPills("programs") }),
   },
   {
     id: "strategy",
@@ -66,7 +66,7 @@ const STEPS = [
       const selected = selectedPills("challenges");
       return selected.length < 1 ? "Please select at least one challenge." : null;
     },
-    collect: () => ({ "Frustrations": selectedPills("challenges").join(", ") }),
+    collect: () => ({ "Frustrations": selectedPills("challenges") }),
   },
   {
     id: "price",
