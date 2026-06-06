@@ -152,7 +152,29 @@
   min-width: 12rem;
 }
 
-.btn-join:active { transform: translateY(20); }
+.btn-join:active { transform: none }
+/* ── Spinning border on mobile (replaces GSAP bounce) ── */
+@property --join-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes join-border-spin {
+  from { --join-angle: 0deg; }
+  to   { --join-angle: 360deg; }
+}
+
+.btn-join-wrap {
+    background: conic-gradient(
+      from var(--join-angle),
+      var(--color-grad-a),
+      var(--color-grad-b),
+      var(--color-grad-c),
+      var(--color-grad-a)
+  );
+  animation: join-border-spin 3s linear infinite;
+}
 
 /* ============================================================
    FORM CONTAINER
@@ -189,10 +211,6 @@
   width: 100%;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-20px);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -204,15 +222,15 @@
   opacity: 1;
   pointer-events: all;
   transform: translateY(0);
-  position: relative; /* take up space */
+  position: relative; /*take up space*/
 }
 
 /* Exiting step — slides down and fades */
+/* Exiting step — pointer-events off, GSAP handles opacity/transform */
 .form-step.step-exit {
-  opacity: 0;
-  transform: translateY(32px);
   pointer-events: none;
 }
+
 
 /* ============================================================
    STEP QUESTION LABEL

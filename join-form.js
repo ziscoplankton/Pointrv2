@@ -141,6 +141,9 @@ function goToStep(nextIndex) {
   const nextEl    = stepEl(next.id);
   if (!currentEl || !nextEl) return;
 
+  // Pull out of flow BEFORE class changes so GSAP never sees it as relative
+  gsap.set(currentEl, { position: "absolute", width: "100%", top: 0 });
+
   // Exit current
   currentEl.classList.add("step-exit");
   currentEl.classList.remove("step-active");
@@ -148,9 +151,9 @@ function goToStep(nextIndex) {
   // Small delay so exit animation is visible
   setTimeout(() => {
     currentEl.classList.remove("step-exit");
+    gsap.set(currentEl, { clearProps: "position,width,top" });
     // Enter next
     nextEl.classList.add("step-active");
-    // Focus first input in next step
     const firstInput = nextEl.querySelector("input, button.pill-btn");
     if (firstInput) firstInput.focus();
   }, 420);
@@ -238,9 +241,10 @@ async function handleOk() {
       btn.classList.add("loading");
     }
 
-    try {
-      await submitToAirtable(formData);
-      showThankYou();
+  try { 
+    //console.log("📋 Submitting to Airtable:", JSON.stringify(formData, null, 2));
+    await submitToAirtable(formData);
+    showThankYou();
     } catch (e) {
       console.error("Airtable error:", e);
       showError(step.id, "Something went wrong. Please try again.");

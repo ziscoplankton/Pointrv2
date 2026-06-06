@@ -52,40 +52,38 @@ function initJoinIntro() {
   const tl = window._introTl;
 
   // Bouncy ring entrance
-  if (ring)    tl.from(ring,    { autoAlpha: 0, scale: 0.2, duration: 1.4, ease: "back.out(2.5)" });
+  if (ring)    tl.from(ring,    { autoAlpha: 0, scale: 1, duration: 1., ease: "power1.out" });
   if (header)  tl.from(header,  { autoAlpha: 0, y: -20, duration: 0.9 }, "<1.3");
   if (title)   tl.from(title,   { autoAlpha: 0, y: 48, duration: 1 }, "<1");
   if (sub)     tl.from(sub,     { autoAlpha: 0, y: 28, duration: 0.8 }, "<0.95");
-  if (btnWrap) tl.fromTo(btnWrap,
-    { autoAlpha: 0, y: 30 },
-    { autoAlpha: 1, y: 0, duration: 0.8 },
-    "<0.95"
-  );
+  if (btnWrap) {
+    gsap.set(btnWrap, { autoAlpha: 0 });
+    tl.to(btnWrap, { autoAlpha: 1, duration: 0.8 }, "<0.95");
+  }
 
   // Ring fades out after 2 spins (~6s)
   if (ring) {
     setTimeout(() => {
       gsap.to(ring, {
         autoAlpha: 0,
-        scale: 0.85,
+        scale: 1,
         duration: 0.8,
         ease: "power2.inOut",
       });
     }, 4500);
   }
 
-  // Bounce — desktop only
-  if (btnWrap && window.innerWidth > 1024) {
-    setTimeout(() => {
-      gsap.to(btnWrap, {
-        y: -8,
-        duration: 2,
-        ease: "power1.inOut",
-        repeat: -1,
-        yoyo: true,
-        force3D: true,
-      });
-    }, 6800);
+  // Ensure GSAP never touches the wrapper so CSS spin runs cleanly
+  if (btnWrap) gsap.set(btnWrap, { clearProps: "transform" });
+
+  // Pause/resume spin on hover — same pattern as contact icons
+  if (btnWrap) {
+    btnWrap.addEventListener("mouseenter", () => {
+      btnWrap.style.animationPlayState = "paused";
+    });
+    btnWrap.addEventListener("mouseleave", () => {
+      btnWrap.style.animationPlayState = "running";
+    });
   }
 
   // Kill everything and hand off to showForm cleanly
@@ -150,15 +148,9 @@ function initPillMicroInteractions() {
    This must load AFTER join-form.js (handled via script order).
    ============================================================ */
 function patchFormTransitions() {
-  /* Wait until join-form.js DOMContentLoaded runs */
   setTimeout(() => {
     if (typeof goToStep !== "function") return;
 
-    /* Capture original */
-    const _originalGoToStep = window._originalGoToStep = goToStep;
-
-    /* We can't re-assign the closure easily, so we hook into
-       the step transition via a MutationObserver on classes   */
     const container = document.querySelector(".form-steps-container");
     if (!container) return;
 
@@ -166,17 +158,15 @@ function patchFormTransitions() {
       mutations.forEach(m => {
         if (m.attributeName !== "class") return;
         const el = m.target;
+
         if (el.classList.contains("step-active")) {
-          /* Animate the newly active step in */
           gsap.fromTo(el,
             { autoAlpha: 0, y: -18 },
             { autoAlpha: 1, y: 0, duration: 0.42, ease: "power3.out" }
           );
-          /* Animate children with stagger */
           const children = el.querySelectorAll(
             ".step-question, .input-underline, .pill-list, .step-footnote"
           );
-          // add .btn-ok to the children constant if needed
           gsap.from(children, {
             autoAlpha: 0,
             y: 10,
@@ -186,19 +176,16 @@ function patchFormTransitions() {
             delay: 0.08,
           });
         }
+
         if (el.classList.contains("step-exit")) {
-          gsap.to(el, {
-            autoAlpha: 0,
-            y: 28,
-            duration: 0.35,
-            ease: "power2.in",
-            overwrite: true,
-          });
+          gsap.fromTo(el,
+            { autoAlpha: 1, y: 0 },
+            { autoAlpha: 0, y: 28, duration: 0.35, ease: "power2.in", overwrite: true }
+          );
         }
       });
     });
 
-    /* Observe all form steps */
     container.querySelectorAll(".form-step").forEach(step => {
       obs.observe(step, { attributes: true });
     });

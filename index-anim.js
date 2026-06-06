@@ -52,17 +52,54 @@ function wrapWords(el) {
    ============================================================ */
 
 const preloader = document.getElementById("preloader");
+const isMobile = window.innerWidth <= 1024;
 
 window.addEventListener("load", () => {
-  gsap.to(preloader, {
-    autoAlpha: 0,
-    duration: 1.5,
-    ease: "power1.inOut",
-    delay: 0.9,
-    onComplete: () => {
-      preloader.style.display = "none";
-    }
-  });
+  if (isMobile) {
+    // Mobile: hold logo longer, scale it up slightly as it fades
+    // then reveal the static page cleanly
+    const preloaderLogo = preloader.querySelector(".preloader-logo");
+
+    const tl = gsap.timeline();
+
+    // 1. Brief hold so the logo is seen
+    tl.to(preloaderLogo, {
+      scale: 1,
+      duration: 1.2,
+      ease: "power1.inOut",
+      delay: 1.2,
+    });
+
+    // 2. Logo fades and scales down slightly
+    tl.to(preloaderLogo, {
+      autoAlpha: 0,
+      scale: 1,
+      duration: 0.7,
+      ease: "power2.in",
+    });
+
+    // 3. White overlay fades out — page beneath is already rendered
+    tl.to(preloader, {
+      autoAlpha: 0,
+      duration: 0.6,
+      ease: "power1.out",
+      onComplete: () => {
+        preloader.style.display = "none";
+      },
+    }, "-=0.15"); // slight overlap so it feels continuous
+
+  } else {
+    // Desktop: original behaviour — quick fade while hero animates in
+    gsap.to(preloader, {
+      autoAlpha: 0,
+      duration: 1.5,
+      ease: "power1.inOut",
+      delay: 0.9,
+      onComplete: () => {
+        preloader.style.display = "none";
+      }
+    });
+  }
 });
 /* ============================================================
    INIT
@@ -131,9 +168,9 @@ function initNav() {
     y: -48,
     autoAlpha: 0,
     duration: 0.6,
-    ease: "power3.out",
+    ease: "power1.out",
     clearProps: "transform,opacity,visibility",
-    delay: 5.5,
+    delay: 7.5,
   });
 
   // Scroll: only deepen the shadow slightly — don't change the glass itself
@@ -307,21 +344,7 @@ function initHeroCard() {
     ease: "expo.out",
   });
 
-  /* ─── Phase 2: Text unblurs top → bottom, staggered ──────────
-     Each element clears in sequence — title first, list items
-     last. power2.out keeps it soft, not mechanical.
-  ────────────────────────────────────────────────────────────── */
-  tl.to(allText, {
-    filter: "blur(0px)",
-    duration: UNBLUR_DUR,
-    ease: "power2.out",
-    stagger: { each: STAGGER, from: "start" },
-  }, "+=0.1");
-
-  /* ─── Phase 3: Shimmer — fires after last element is clear ───
-     Total text reveal time = UNBLUR_DUR + (items-1 × STAGGER)
-     += 0.08 gives it a brief breath before the sweep begins.
-  ────────────────────────────────────────────────────────────── */
+  /* ─── Phase 2: Shimmer sweeps first — light passes over blurred glass ── */
   tl.call(() => {
     wrap.appendChild(shimmer);
     gsap.to(shimmer, {
@@ -330,7 +353,18 @@ function initHeroCard() {
       ease: "power1.inOut",
       onComplete: () => shimmer.remove(),
     });
-  }, null, "+=0.08");
+  }, null, "+=0.1");
+
+  /* ─── Phase 3: Text unblurs as shimmer sweeps — content emerges beneath ──
+     Starts 0.3s into the shimmer so the light leads the reveal.
+  ────────────────────────────────────────────────────────────────────────── */
+  tl.to(allText, {
+    filter: "blur(0px)",
+    duration: UNBLUR_DUR,
+    ease: "power2.out",
+    stagger: { each: STAGGER, from: "start" },
+    delay: 0.3,
+  }, "+=0.25");
 }
 /* ============================================================
    6. HERO GROW — scroll-triggered reveal

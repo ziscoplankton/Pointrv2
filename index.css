@@ -148,7 +148,7 @@
   background-clip: padding-box;
 }
 
-.nav-cta::before {
+/* .nav-cta::before {
   content: '';
   position: absolute;
   inset: -2px;
@@ -183,7 +183,27 @@
   opacity: 1; 
   animation: cta-border-spin 1.5s linear infinite;
 }
-.nav-cta:hover         { opacity: 1; }
+.nav-cta:hover         { opacity: 1; } */
+
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  background: conic-gradient(
+    from var(--cta-angle),
+    var(--color-grad-a),
+    var(--color-grad-b),
+    var(--color-grad-c),
+    var(--color-grad-a)
+  );
+  z-index: -1;
+  animation: cta-border-spin 3s linear infinite;
+}
+
+.nav-cta:hover::before {
+  animation-play-state: paused;
+}
 
 /* ============================================================
    HERO SECTION  (screen 1)
